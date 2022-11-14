@@ -1,0 +1,43 @@
+<aside class="left-sidebar" data-sidebarbg="skin6">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar" data-sidebarbg="skin6">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'home' %}"
+                        aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
+                            class="hide-menu">Dashboard</span></a></li>
+                <li class="list-divider"></li>
+                {% for group in user.groups.all %}
+                    {% if group.name == 'admin' or group.name == 'solostove_admin' or group.name == 'phytel_admin' or group.name == 'cmifinance_admin' %}
+                <li class="nav-small-cap"><span class="hide-menu">Admin</span></li>
+                    {% endif %}
+                {% endfor %}
+                {% for group in user.groups.all %}
+                    {% if group.name == 'admin' %}
+                <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
+                        aria-expanded="false"><i class="fas fa-building feather-icon"></i><span
+                            class="hide-menu">Super Admin</span></a>
+                    <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                        <li class="sidebar-item"><a href="{% url 'users' %}" class="sidebar-link"> <span class="hide-menu">Users</span></a></li>
+                   </ul>
+                </li>
+                    {% endif %}
+                {% endfor %}
+                <li class="list-divider"></li>
+                <li class="nav-small-cap"><span class="hide-menu">Operation</span></li>
+                <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
+                        aria-expanded="false"><i class="fas fa-user feather-icon"></i><span
+                            class="hide-menu">DQA Training</span></a>
+                    <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                        <li class="sidebar-item"><a href="#" class="sidebar-link"> <span class="hide-menu">Review Article</span></a></li>
+                    </ul>
+                </li>
+                <li class="list-divider"></li>
+                <li class="nav-small-cap"><span class="hide-menu">Extra</span></li>
+            </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>

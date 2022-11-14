@@ -1,0 +1,13 @@
+<form method="post" action="{% url 'user_create' %}" class="js-user-create-form" autocomplete="off">
+  {% csrf_token %}
+  <div class="modal-header bg-primary text-white text-center">
+    <h4 class="modal-title w-100">{{pagetitle}}</h4>
+  </div>
+  <div class="modal-body">    
+    {{ form.as_p }}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">{{pagetitle}}</button>
+  </div>
+</form>

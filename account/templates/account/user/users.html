@@ -1,0 +1,110 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="card text-black mb-3">
+        <h4 class="card-header text-center"> {{ pagetitle|upper }}
+            {% for group in user.groups.all %}
+              {% if group.name == 'admin' %}
+                <button type="button" class="btn btn-primary js-create-user" data-url="{% url 'user_create' %}">
+                    <i class="fas fa-plus"></i>
+                </button>
+              {% endif %}
+            {% endfor %}
+        </h4>
+        <div class="card-body">
+            {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                {{ message }}
+                </div>
+            {% endfor %}
+            <br>
+            <form action="" method="POST" autocomplete="off">
+              {% csrf_token %}
+              <div class="form-row">
+                <div class="form-group col-md-6 mb-0">
+                  <label class="" for="search_text">Search Text:</label>
+                  <input class="form-control form-control" name="search_text" id="search_text" value="{{ request.POST.search_text }}"></input> 
+                </div>
+                <div class="form-group col-md-6 mb-2">
+                  <br>
+                  <button type="submit" name="submit" class="btn btn-primary mt-2">
+                    <span class="fa fa-search"></span> Search
+                  </button>
+                </div>
+              </div>
+            </form>
+            <div class="table-responsive" style="overflow:auto">
+                <table id="user-table" class="my_table table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Employee ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Contact</th>
+                            {% for group in user.groups.all %}
+                                {% if group.name == 'admin' %}
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>                        
+                        {% include 'account/user/user-table.html' %}
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+            {% if employees.has_other_pages %}
+                <div class="progect-pagination d-flex justify-content-between align-items-center flex-wrap mt-3">
+                    <h4 class="mb-3">Showing {{ employees }}</h4>
+                    <ul class="pagination mb-3">
+                        {% if employees.has_previous %}
+                        <li class="page-item page-indicator">
+                            <a class="page-link" href="?page={{ employees.previous_page_number }}{% if request.POST.q %}&q={{ request.POST.q }}{% endif %}">Previous</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item page-indicator disabled">
+                            <a class="page-link" href="javascript:void(0)">Previous</a>
+                        </li>
+                        {% endif %}
+                        
+                        {% for num in employees.paginator.page_range %}
+                            {% if employees.number == num %}
+                                <li class="page-item active"><a class="page-link" href="#!">{{ num }}</a></li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if employees.has_next %}
+                            <li class="page-item page-indicator">
+                                <a class="page-link" href="?page={{ employees.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item page-indicator disabled">
+                                <a class="page-link" href="javascript:void(0)">Next</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- THE MODAL WE WILL BE USING -->
+    <div class="modal fade" id="modal-user">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+<script src="{% static 'js/user.js' %}"></script>
+{% endblock %}

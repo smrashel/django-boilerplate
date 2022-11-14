@@ -1,0 +1,26 @@
+{% for employee in employees %}
+    <tr>
+        <td>{{ employee.employee_id }}</td>
+        <td>{{ employee.first_name }} {{ employee.last_name }}</td>
+        <td>{{ employee.email }}</td>
+        <td>{{ employee.username }}</td>
+        <td>{{ employee.contact_number }}</td>
+        {% if user_group == 'admin' %}
+            <td class="text-center">
+                <button type="button"
+                        class="btn btn-warning btn-sm js-update-user"
+                        data-url="{% url 'user_update' employee.id %}">
+                        <i class="fas fa-edit"></i>
+                </button>
+            </td>
+            <td>
+                <button type="button"
+                        class="btn btn-danger btn-sm js-delete-user"
+                        data-url="{% url 'user_delete' employee.id %}">
+                        <i class="fas fa-trash"></i>
+
+                </button>
+            </td>
+        {% endif %}
+    </tr>
+{% endfor %}
